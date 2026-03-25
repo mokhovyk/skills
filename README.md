@@ -5,6 +5,15 @@ A collection of reusable skills for AI agents. Skills provide procedural knowled
 Compatible with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.sh), [Windsurf](https://windsurf.com), [GitHub Copilot](https://github.com/features/copilot), and [other supported agents](https://skills.sh).
 
 
+## Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| [code-review](./code-review/SKILL.md) | Review code changes for bugs, security issues, performance problems, and best practice violations. |
+| [create-new-skill](./create-new-skill/SKILL.md) | Create new agent skills with proper structure, progressive disclosure, and bundled resources. |
+| [tdd](./tdd/SKILL.md) | Test-driven development workflow. Write the test first, watch it fail, write minimal code to pass. |
+
+
 ## Install a Skill
 
 Install skills using the [skills CLI](https://github.com/vercel-labs/skills):
@@ -14,15 +23,6 @@ npx skills add mokhovyk/skills
 ```
 
 This will install all skills from this repository and make them available to your AI agent.
-
-## Available Skills
-
-| Skill | Description |
-|-------|-------------|
-| [code-review](./code-review/SKILL.md) | Review code changes for bugs, security issues, performance problems, and best practice violations. |
-| [create-new-skill](./create-new-skill/SKILL.md) | Create new agent skills with proper structure, progressive disclosure, and bundled resources. |
-| [tdd](./tdd/SKILL.md) | Test-driven development workflow. Write the test first, watch it fail, write minimal code to pass. |
-
 
 ### Source Formats
 
@@ -59,16 +59,13 @@ npx skills add git@github.com:mokhovyk/skills.git
 npx skills add mokhovyk/skills --list
 
 # Install specific skills
-npx skills add mokhovyk/skills --skill tdd --skill skill-creator
-
-# Install a skill with spaces in the name (must be quoted)
-npx skills add mokhovyk/skills --skill "Convex Best Practices"
+npx skills add mokhovyk/skills --skill tdd --skill code-review
 
 # Install to specific agents
 npx skills add mokhovyk/skills -a claude-code -a opencode
 
 # Non-interactive installation (CI/CD friendly)
-npx skills add mokhovyk/skills --skill frontend-design -g -a claude-code -y
+npx skills add mokhovyk/skills --skill tdd -g -a claude-code -y
 
 # Install all skills from a repo to all agents
 npx skills add mokhovyk/skills --all
@@ -77,7 +74,7 @@ npx skills add mokhovyk/skills --all
 npx skills add mokhovyk/skills --skill '*' -a claude-code
 
 # Install specific skills to all agents
-npx skills add mokhovyk/skills --agent '*' --skill frontend-design
+npx skills add mokhovyk/skills --agent '*' --skill tdd
 ```
 
 ### Installation Scope
