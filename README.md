@@ -1,89 +1,98 @@
-# Skills
+# Agent Skills
 
 A collection of reusable skills for AI agents. Skills provide procedural knowledge that helps agents accomplish specific tasks more effectively.
 
 Compatible with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.sh), [Windsurf](https://windsurf.com), [GitHub Copilot](https://github.com/features/copilot), and [other supported agents](https://skills.sh).
+
+
+## Install a Skill
+
+Install skills using the [skills CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add mokhovyk/skills
+```
+
+This will install all skills from this repository and make them available to your AI agent.
 
 ## Available Skills
 
 | Skill | Description |
 |-------|-------------|
 | [code-review](./code-review/SKILL.md) | Review code changes for bugs, security issues, performance problems, and best practice violations. |
+| [create-new-skill](./create-new-skill/SKILL.md) | Create new agent skills with proper structure, progressive disclosure, and bundled resources. |
+| [tdd](./tdd/SKILL.md) | Test-driven development workflow. Write the test first, watch it fail, write minimal code to pass. |
 
-## Installation
 
-Install skills using the [skills CLI](https://github.com/vercel-labs/skills):
+### Source Formats
 
-```sh
+```bash
+# GitHub shorthand (owner/repo)
 npx skills add mokhovyk/skills
+
+# Full GitHub URL
+npx skills add https://github.com/mokhovyk/skills
+
+# Direct path to a skill in a repo
+npx skills add https://github.com/mokhovyk/skills/tree/main/tdd
+
+# Any git URL
+npx skills add git@github.com:mokhovyk/skills.git
 ```
 
-This will install all skills from this repository and make them available to your AI agent.
+### Options
 
-### Manual Installation
+| Option                    | Description                                                                                                                                        |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-g, --global`            | Install to user directory instead of project                                                                                                       |
+| `-a, --agent <agents...>` | <!-- agent-names:start -->Target specific agents (e.g., `claude-code`, `codex`). See [Available Agents](#available-agents)<!-- agent-names:end --> |
+| `-s, --skill <skills...>` | Install specific skills by name (use `'*'` for all skills)                                                                                         |
+| `-l, --list`              | List available skills without installing                                                                                                           |
+| `--copy`                  | Copy files instead of symlinking to agent directories                                                                                              |
+| `-y, --yes`               | Skip all confirmation prompts                                                                                                                      |
+| `--all`                   | Install all skills to all agents without prompts                                                                                                   |
 
-You can also install skills manually by copying them into your agent's skills directory:
+### Examples
 
-**Claude Code (personal — all projects):**
+```bash
+# List skills in a repository
+npx skills add mokhovyk/skills --list
 
-```sh
-cp -r code-review ~/.claude/skills/code-review
+# Install specific skills
+npx skills add mokhovyk/skills --skill tdd --skill skill-creator
+
+# Install a skill with spaces in the name (must be quoted)
+npx skills add mokhovyk/skills --skill "Convex Best Practices"
+
+# Install to specific agents
+npx skills add mokhovyk/skills -a claude-code -a opencode
+
+# Non-interactive installation (CI/CD friendly)
+npx skills add mokhovyk/skills --skill frontend-design -g -a claude-code -y
+
+# Install all skills from a repo to all agents
+npx skills add mokhovyk/skills --all
+
+# Install all skills to specific agents
+npx skills add mokhovyk/skills --skill '*' -a claude-code
+
+# Install specific skills to all agents
+npx skills add mokhovyk/skills --agent '*' --skill frontend-design
 ```
 
-**Claude Code (project-scoped):**
+### Installation Scope
 
-```sh
-cp -r code-review .claude/skills/code-review
-```
+| Scope       | Flag      | Location            | Use Case                                      |
+| ----------- | --------- | ------------------- | --------------------------------------------- |
+| **Project** | (default) | `./<agent>/skills/` | Committed with your project, shared with team |
+| **Global**  | `-g`      | `~/<agent>/skills/` | Available across all projects                 |
 
-## Usage
+### Installation Methods
 
-Once installed, invoke a skill using its slash command:
+When installing interactively, you can choose:
 
-```
-/code-review
-```
+| Method                    | Description                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| **Symlink** (Recommended) | Creates symlinks from each agent to a canonical copy. Single source of truth, easy updates. |
+| **Copy**                  | Creates independent copies for each agent. Use when symlinks aren't supported.              |
 
-Skills can also accept arguments:
-
-```
-/code-review focus on error handling and security
-```
-
-Your AI agent may also invoke skills automatically when the conversation context matches the skill's description.
-
-## Skill Structure
-
-Each skill lives in its own directory with a `SKILL.md` file:
-
-```
-skill-name/
-├── SKILL.md          # Required — skill definition with YAML frontmatter
-├── reference.md      # Optional — detailed reference material
-├── examples.md       # Optional — usage examples
-└── scripts/          # Optional — helper scripts the agent can execute
-```
-
-### SKILL.md Format
-
-```markdown
----
-name: skill-name
-description: Short description of what the skill does.
----
-
-Step-by-step instructions for the agent to follow when this skill is invoked.
-```
-
-## Contributing
-
-1. Create a new directory for your skill (e.g., `my-skill/`).
-2. Add a `SKILL.md` file with frontmatter and instructions.
-3. Update this README table with the new skill.
-4. Submit a pull request.
-
-## Learn More
-
-- [Skills Directory & Leaderboard](https://skills.sh)
-- [Skills Documentation](https://skills.sh/docs)
-- [Skills CLI (open source)](https://github.com/vercel-labs/skills)
